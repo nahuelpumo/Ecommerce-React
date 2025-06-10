@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
-import ItemListContainer from './components/ItemListContainer';
 import Footer from './components/Footer';
-import products from './data/products';
+import ItemListContainer from './containers/ItemListContainer';
+import ItemDetailContainer from './containers/ItemDetailContainer';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -25,14 +26,15 @@ function App() {
   };
 
   return (
-    <>
+    <BrowserRouter>
       <NavBar cartItems={cartItems} onClearCart={handleClearCart} />
-      <ItemListContainer
-        products={products}
-        onAddToCart={handleAddToCart}
-      />
+      <Routes>
+        <Route path="/" element={<ItemListContainer onAddToCart={handleAddToCart} />} />
+        <Route path="/category/:categoryId" element={<ItemListContainer onAddToCart={handleAddToCart} />} />
+        <Route path="/item/:itemId" element={<ItemDetailContainer onAddToCart={handleAddToCart} />} />
+      </Routes>
       <Footer />
-    </>
+    </BrowserRouter>
   );
 }
 
